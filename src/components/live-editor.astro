@@ -1,0 +1,25 @@
+---
+
+---
+
+<textarea
+  id="live-editor"
+  class="w-full focus:outline-none h-full p-4 text-slate-800 bg-transparent resize-none"
+  spellcheck="false"
+>
+</textarea>
+<script>
+import { fragmentStore } from "../fragment-store";
+
+
+const liveEditor = document.getElementById('live-editor') as HTMLTextAreaElement;
+
+liveEditor.addEventListener('input', () => {
+  const code = liveEditor.value;
+  fragmentStore.set(code);
+});
+
+fragmentStore.subscribe((code) => {
+  liveEditor.value = code;
+});
+</script>

@@ -1,0 +1,11 @@
+title: "FB-2024-DW"
+code: 
+  head: "precision highp float;\nvarying vec2 vUv;\n"
+  dependency: "vec2 wave(vec2 uv, float x, float y){\n\treturn vec2(\n\t\tuv.x + sin(vUv.y * x) * 0.1,\n\t\tuv.y + sin(uv.x * y) * 0.1);\n}\n"
+  main: "void main() {\n\tvec2 wavedUv = wave(vUv, 0.0, 30.0);\n\tfloat strength = 1.0 - step(0.01, abs(distance(wavedUv, vec2(0.5)) - 0.25));\n\tgl_FragColor = vec4(strength, strength, strength, 1.0);\n}"
+name: "Dynamic Whisper"
+description: "A simple fragment shader that colors the screen based on the UV coordinates."
+dependencies: [FB-2024-DW]
+author:
+  name: "trongar"
+  link: "https://trongar.site/"

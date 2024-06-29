@@ -1,0 +1,8 @@
+title: "FB-2024-MM"
+code: "precision highp float;\nvarying vec2 vUv;\nvoid main() {\n\tgl_FragColor = vec4(vUv.x, vUv.x, vUv.x, 1.0);\n}"
+name: "Monochrome Mist"
+description: "A simple fragment shader that colors the screen based on the UV coordinates."
+dependencies:
+author:
+  name: "trongar"
+  link: "https://trongar.site/"

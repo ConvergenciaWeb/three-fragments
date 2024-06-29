@@ -1,0 +1,8 @@
+title: "FB-2024-GS"
+code: "precision highp float;\nvarying vec2 vUv;\nvoid main() {\n\tfloat strength = vUv.y;\n\tgl_FragColor = vec4(strength, strength, strength, 1.0);\n}"
+name: "Gradient Shadow"
+description: "A simple fragment shader that colors the screen based on the UV coordinates."
+dependencies:
+author:
+  name: "trongar"
+  link: "https://trongar.site/"

@@ -1,0 +1,11 @@
+title: "FB-2024-PX"
+code: 
+  head: "#define PI 3.1415926535897932384626433832795\nprecision highp float;\nvarying vec2 vUv;\n"
+  dependency: "vec2 rotate(vec2 uv, float rotation, vec2 mid){\n\treturn vec2(\n\t\tcos(rotation) * (uv.x - mid.x) + sin(rotation) * (uv.y - mid.y) + mid.x,\n\t\tcos(rotation) * (uv.y - mid.y) - sin(rotation) * (uv.x - mid.x) + mid.y\n\t);\n}\n"
+  main: "void main() {\n\tvec2 rotatedUv = rotate(vUv, PI * 0.25, vec2(0.5));\n\tfloat strength = 0.15 / (distance(vec2(rotatedUv.x, (rotatedUv.y - 0.5) * 5.0 + 0.5), vec2(0.5)));\n\tstrength *= 0.15 / (distance(vec2(rotatedUv.y, (rotatedUv.x - 0.5) * 5.0 + 0.5), vec2(0.5)));\n\tgl_FragColor = vec4(strength, strength, strength, 1.0);\n}"
+name: "Phos Plexus"
+description: "A simple fragment shader that colors the screen based on the UV coordinates."
+dependencies: [FB-2024-PX]
+author:
+  name: "trongar"
+  link: "https://trongar.site/"

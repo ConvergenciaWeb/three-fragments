@@ -1,0 +1,126 @@
+---
+import { getCollection } from "astro:content";
+const fragmentEntries = await getCollection("fragments");
+
+const { page = 1 } = Astro.params;
+
+const totalPages = Math.ceil(fragmentEntries.length / 12);
+---
+
+<div class="pagination text-center">
+  <a
+    class="underline text-blue-500 hover:text-blue-300"
+    href={`/${Number(page) !== 1 ? Number(page) - 1 : page}`}>Previous</a
+  >
+  <span>Page {page} of {totalPages}</span>
+  <a
+    class="underline text-blue-500 hover:text-blue-300"
+    href={`/${Number(page) !== totalPages ? Number(page) + 1 : totalPages}`}
+    >Next</a
+  >
+</div>
+
+<section id="gallery" class="grid md:grid-cols-3 gap-4">
+  {
+    fragmentEntries.map((fragment, index) => {
+      const itemsPerPage = 12;
+      const pivot = itemsPerPage * ((page as number) - 1);
+      if (index < pivot || index >= pivot + itemsPerPage) return null;
+
+      let code = fragment.data.code;
+      if (typeof code === "object") {
+        const dependenciesTitles = fragment.data.dependencies;
+        const dependencies = fragmentEntries.filter((entry) =>
+          dependenciesTitles.includes(entry.data.title)
+        );
+        const dependenciesCode = dependencies.map(
+          (entry) => entry.data.code.dependency
+        );
+        code =
+          fragment.data.code.head +
+          dependenciesCode.join("") +
+          fragment.data.code.main;
+      }
+
+      return (
+        <button data-code={code} class="mx-2 bg-white shadow-md">
+          <figure class="w-full aspect-square" />
+          <figcaption class="p-4 pb-12 text-start">
+            <h3 class="text-xl font-bold">FRAG {fragment.data.title}</h3>
+            <p class="text-lg">{fragment.data.name}</p>
+          </figcaption>
+        </button>
+      );
+    })
+  }
+</section>
+
+<div class="pagination text-center">
+  <a
+    class="underline text-blue-500 hover:text-blue-300"
+    href={`/${page !== "1" ? Number(page) - 1 : page}`}>Previous</a
+  >
+  <span>Page {page} of {totalPages}</span>
+  <a
+    class="underline text-blue-500 hover:text-blue-300"
+    href={`/${Number(page) !== totalPages ? Number(page) + 1 : totalPages}`}
+    >Next</a
+  >
+</div>
+
+<script>
+  import { fragmentStore } from "../fragment-store";
+  import { Renderer, Camera, Transform, Program, Mesh, Plane } from "ogl";
+
+  const gallery = document.getElementById("gallery");
+
+  gallery?.querySelectorAll("button").forEach((button) => {
+    const fragment = button.getAttribute("data-code");
+    button.addEventListener("click", () => {
+      if (fragment) fragmentStore.set(fragment);
+    });
+
+    const viewer = button.querySelector("figure");
+    const renderer = new Renderer();
+    const gl = renderer.gl;
+    if (viewer) viewer.appendChild(gl.canvas);
+
+    const camera = new Camera(gl);
+    camera.position.z = 1.21;
+
+    function resize() {
+      if (viewer) renderer.setSize(viewer.clientWidth, viewer.clientHeight);
+      camera.perspective({
+        aspect: gl.canvas.width / gl.canvas.height,
+      });
+    }
+    window.addEventListener("resize", resize, false);
+    resize();
+
+    const scene = new Transform();
+
+    const geometry = new Plane(gl);
+
+    const program = new Program(gl, {
+      vertex: /* glsl */ `
+            attribute vec3 position;
+            attribute vec2 uv;
+            varying vec2 vUv;
+
+            uniform mat4 modelViewMatrix;
+            uniform mat4 projectionMatrix;
+
+            void main() {
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                vUv = uv;
+            }
+        `,
+      fragment: /* glsl */ fragment as string,
+    });
+
+    const mesh = new Mesh(gl, { geometry, program });
+    mesh.setParent(scene);
+
+    renderer.render({ scene, camera });
+  });
+</script>

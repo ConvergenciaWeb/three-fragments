@@ -1,0 +1,11 @@
+title: "FB-2024-ID"
+code: 
+  head: "precision highp float;\nvarying vec2 vUv;\n"
+  dependency: ""
+  main: "void main() {\n\tfloat strength = abs(distance(vUv, vec2(0.5)) - 0.25);\n\tgl_FragColor = vec4(strength, strength, strength, 1.0);\n}"
+name: "Implode Dawn"
+description: "A simple fragment shader that colors the screen based on the UV coordinates."
+dependencies: []
+author:
+  name: "trongar"
+  link: "https://trongar.site/"

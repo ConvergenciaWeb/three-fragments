@@ -1,0 +1,14 @@
+---
+import LiveEditor from "../components/live-editor.astro";
+import LiveViewer from "../components/live-viewer.astro";
+
+
+---
+<section class="flex sticky top-0" id="editor">
+    <div class=" flex-grow bg-slate-100/70 backdrop-blur-3xl">
+        <LiveEditor />
+    </div>
+    <div class="h-96 aspect-square bg-slate-50">
+        <LiveViewer />
+    </div>
+</section>

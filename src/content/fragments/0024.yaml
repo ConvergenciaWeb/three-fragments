@@ -1,0 +1,12 @@
+title: "FB-2024-CN"
+code: 
+  head: "precision highp float;\nvarying vec2 vUv;\n"
+  dependency: "float random(vec2 st){\n\treturn fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);\n}\n" 
+  main: "void main() {\n\t float strength = random(vUv);\n\tgl_FragColor = vec4(strength, strength, strength, 1.0);\n}"
+name: "Chaos Netting"
+description: "A simple fragment shader that colors the screen based on the UV coordinates."
+dependencies: 
+  - "FB-2024-CN"
+author:
+  name: "trongar"
+  link: "https://trongar.site/"

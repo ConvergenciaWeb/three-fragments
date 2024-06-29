@@ -1,0 +1,8 @@
+title: "FB-2024-MP"
+code: "precision highp float;\nvarying vec2 vUv;\nvoid main() {\n\tfloat strength = mod(vUv.y * 10.0, 1.0);\n\tstrength = step(0.8, strength);\n\tgl_FragColor = vec4(strength, strength, strength, 1.0);\n}"
+name: "Monochrome Pulse"
+description: "A simple fragment shader that colors the screen based on the UV coordinates."
+dependencies:
+author:
+  name: "trongar"
+  link: "https://trongar.site/"

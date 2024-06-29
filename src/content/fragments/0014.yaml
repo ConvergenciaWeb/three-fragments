@@ -1,0 +1,8 @@
+title: "FB-2024-NA"
+code: "precision highp float;\nvarying vec2 vUv;\nvoid main() {\n\tfloat strength = step(0.4, mod(vUv.x * 10.0, 1.0));\n\tstrength *= step(0.8, mod(vUv.y * 10.0, 1.0));\n\tstrength = clamp(strength, 0.0, 1.0);\n\tgl_FragColor = vec4(strength, strength, strength, 1.0);\n}"
+name: "Nightfall Array"
+description: "A simple fragment shader that colors the screen based on the UV coordinates."
+dependencies:
+author:
+  name: "trongar"
+  link: "https://trongar.site/"

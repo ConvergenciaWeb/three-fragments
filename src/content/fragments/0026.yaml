@@ -1,0 +1,12 @@
+title: "FB-2024-QG"
+code: 
+  head: "precision highp float;\nvarying vec2 vUv;\n"
+  dependency: 
+  main: "void main() {\n\tvec2 gridUv = vec2(floor(vUv.x * 10.0) / 10.0, floor((vUv.y + vUv.x * 0.5) * 10.0) / 10.0);\n\tfloat strength = random(gridUv);\n\tgl_FragColor = vec4(strength, strength, strength, 1.0);\n}"
+name: "Quantum Grid"
+description: "A simple fragment shader that colors the screen based on the UV coordinates."
+dependencies: 
+  - "FB-2024-CN"
+author:
+  name: "trongar"
+  link: "https://trongar.site/"

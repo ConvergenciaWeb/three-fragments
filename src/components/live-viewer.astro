@@ -1,0 +1,80 @@
+<figure id="live-viewer"></figure>
+
+<script>
+  import { Renderer, Camera, Transform, Box, Program, Mesh, Plane } from "ogl";
+  import { fragmentStore } from "../fragment-store";
+
+  const liveViewer = document.getElementById("live-viewer");
+
+  const renderer = new Renderer();
+  const gl = renderer.gl;
+  if (liveViewer) liveViewer.appendChild(gl.canvas);
+
+  const camera = new Camera(gl);
+  camera.position.z = 1.21;
+
+  function resize() {
+    if (liveViewer)
+      renderer.setSize(
+        liveViewer.parentElement!.clientWidth,
+        liveViewer.parentElement!.clientHeight
+      );
+    camera.perspective({
+      aspect: gl.canvas.width / gl.canvas.height,
+    });
+  }
+  window.addEventListener("resize", resize, false);
+  resize();
+
+  const scene = new Transform();
+
+  const geometry = new Plane(gl);
+
+  const program = new Program(gl, {
+    vertex: /* glsl */ `
+            attribute vec3 position;
+            attribute vec2 uv;
+            varying vec2 vUv;
+
+            uniform mat4 modelViewMatrix;
+            uniform mat4 projectionMatrix;
+
+            void main() {
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                vUv = uv;
+            }
+        `,
+    fragment: /* glsl */ `
+            precision highp float;
+            varying vec2 vUv;
+            void main() {
+                gl_FragColor = vec4(vUv, 0.2, 1.0);
+            }
+        `,
+  });
+
+  const mesh = new Mesh(gl, { geometry, program });
+  mesh.setParent(scene);
+
+  requestAnimationFrame(update);
+  function update() {
+    requestAnimationFrame(update);
+    program.setShaders({
+      fragment: fragmentStore.get(),
+      vertex: `
+            attribute vec3 position;
+            attribute vec2 uv;
+            varying vec2 vUv;
+
+            uniform mat4 modelViewMatrix;
+            uniform mat4 projectionMatrix;
+
+            void main() {
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                vUv = uv;
+            }
+        `,
+    });
+    renderer.render({ scene, camera });
+  }
+</script>

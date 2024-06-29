@@ -1,0 +1,11 @@
+title: "FB-2024-NZ"
+code: 
+  head: "precision highp float;\nvarying vec2 vUv;\n"
+  dependency: []
+  main: "void main() {\n\tfloat strength = 0.15 / (distance(vec2(vUv.x, (vUv.y - 0.5) * 5.0 + 0.5), vec2(0.5)));\n\tgl_FragColor = vec4(strength, strength, strength, 1.0);\n}"
+name: "Nebula Zero"
+description: "A simple fragment shader that colors the screen based on the UV coordinates."
+dependencies: []
+author:
+  name: "trongar"
+  link: "https://trongar.site/"

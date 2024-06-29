@@ -1,0 +1,11 @@
+title: "FB-2024-RD"
+code: 
+  head: "#define PI 3.1415926535897932384626433832795\nprecision highp float;\nvarying vec2 vUv;\n"
+  dependency: ""
+  main: "void main() {\n\tfloat angle = atan(vUv.x - 0.5, vUv.y - 0.5) / (PI * 2.0) + 0.5;\n\tfloat strength = sin(angle * 100.0);\n\tgl_FragColor = vec4(strength, strength, strength, 1.0);\n}"
+name: "Radiant Divide"
+description: "A simple fragment shader that colors the screen based on the UV coordinates."
+dependencies: []
+author:
+  name: "trongar"
+  link: "https://trongar.site/"

@@ -1,0 +1,33 @@
+---
+import Editor from "../sections/editor.astro";
+import Gallery from "../sections/gallery.astro";
+
+
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" /> 
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body class="bg-gray-100">
+		<main class="max-w-screen-lg min-h-screen mx-auto bg-gray-50">
+			<header class="p-4 flex justify-between">
+				<h1 class="text-3xl font-bold">Three <span class="text-white bg-slate-950 rounded-lg px-2">Fragments</span></h1>
+				<nav>
+					<ul class="flex space-x-4">
+						<li><a href="/">Home</a></li>
+						<!-- <li><a href="/gallery">Gallery</a></li>
+						<li><a href="/about">Guides</a></li>
+						<li><a href="/contribution">Contribution</a></li> -->
+					</ul>
+				</nav>
+			</header>
+			<Editor />
+			<Gallery />
+		</main>
+	</body>	
+</html>

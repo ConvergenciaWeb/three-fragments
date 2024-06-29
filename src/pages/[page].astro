@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import Index from './index.astro';
+
+
+export async function getStaticPaths() {
+    const fragmentEntries = await getCollection('fragments');
+    const pages = Math.ceil(fragmentEntries.length / 11);
+    const paths = Array.from({ length: pages }, (_, i) => ({
+        params: { page: (i + 1).toString() },
+    }));
+  return paths;
+}
+// const {page} = Astro.params
+---
+
+<Index />
+
